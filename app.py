@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from nsetools import Nse
 import os
+import requests
 
 app = Flask(__name__)
 
