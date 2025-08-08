@@ -1,41 +1,24 @@
 from flask import Flask, render_template, request
-from nsetools import Nse
 import os
 import requests
+from fetchers import get_stock_price
 
 app = Flask(__name__)
 
-def fetch_nse_price(symbol):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Accept-Encoding": "gzip, deflate, br",
-    }
-
-    session = requests.Session()
-    session.headers.update(headers)
-
-    try:
-        session.get("https://www.nseindia.com", timeout=5)
-
-        url = f"https://www.nseindia.com/api/quote-equity?symbol={symbol}"
-        response = session.get(url, timeout=5)
-        response.raise_for_status()
-        data = response.json()
-        return data["priceInfo"]["lastPrice"]
-    except Exception as e:
-        print(f"Failed to fetch data for {symbol}: {e}")
-        return None
-
 @app.route("/", methods=["GET", "POST"])
-def index():
+def home():
     price = None
-    symbol = ""
-    if request.method == "POST":
-        symbol = request.form.get("symbol").upper()
-        price = fetch_nse_price(symbol)
+    source = None
+    error = None
 
-    return render_template("index.html", price=price, symbol=symbol)
+    if request.method == "POST":
+        symbol = request.form["symbol"].upper()
+        price, source = get_stock_price(symbol)
+
+        if not price:
+            error = f"❌ Failed to fetch price for '{symbol}'. Please check the symbol or try later."
+
+    return render_template("index.html", price=price, source=source, error=error)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
