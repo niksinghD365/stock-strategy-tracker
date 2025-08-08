@@ -3,4 +3,5 @@ yfinance==0.2.37
 pandas==2.1.4
 numpy==1.26.4
 plotly==5.21.0
-nsetools
+requests
+
