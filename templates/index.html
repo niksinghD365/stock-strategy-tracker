@@ -5,16 +5,16 @@
 </head>
 <body>
     <h1>📈 Stock Price Checker</h1>
-    <form method="post">
-        <input type="text" name="symbol" placeholder="Enter symbol (e.g. BHEL)">
-        <button type="submit">Get Price</button>
-    </form>
+    <form method="POST">
+    <input name="symbol" placeholder="Enter symbol (e.g. RELIANCE)" required>
+    <button type="submit">Get Price</button>
+</form>
 
-    {% if price %}
-        <p>✅ Current Price: ₹{{ price }}</p>
-        <p><small>Source: {{ source }}</small></p>
-    {% elif error %}
-        <p style="color:red;">{{ error }}</p>
-    {% endif %}
+{% if price %}
+    <h2>Price of {{ request.form['symbol'].upper() }}: ₹{{ price }} (Source: {{ source }})</h2>
+{% elif error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
 </body>
 </html>
+
