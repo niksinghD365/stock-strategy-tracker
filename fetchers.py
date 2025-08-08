@@ -1,4 +1,5 @@
 import requests
+import yfinance as yf
 
 def get_stock_price(symbol):
     headers = {
@@ -11,22 +12,23 @@ def get_stock_price(symbol):
         session = requests.Session()
         session.headers.update(headers)
         response = session.get(nse_url, timeout=5)
+        response.raise_for_status()
         data = response.json()
+
         price = data["priceInfo"]["lastPrice"]
         return price, "NSE"
     except Exception as e:
-        print(f"NSE fetch failed: {e}")
+        print(f"[NSE ERROR] {e}")
 
-    # 2. Try Yahoo Finance fallback
+    # 2. Fallback to Yahoo Finance
     try:
-        import yfinance as yf
         ticker = yf.Ticker(symbol + ".NS")
         hist = ticker.history(period="1d")
         if not hist.empty:
             price = hist["Close"].iloc[-1]
             return round(price, 2), "Yahoo Finance"
     except Exception as e:
-        print(f"Yahoo fetch failed: {e}")
+        print(f"[Yahoo ERROR] {e}")
 
     # ❌ All failed
-    return No
+    return None, None
