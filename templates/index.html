@@ -6,22 +6,15 @@
 <body>
     <h1>Stock Strategy Tracker</h1>
     <form method="POST">
-        <input type="text" name="symbol" placeholder="Enter NSE Symbol (e.g., BHEL)" required>
-        <button type="submit">Get Data</button>
+        <label for="symbol">Enter NSE Symbol (e.g. BHEL):</label>
+        <input type="text" name="symbol" id="symbol" required>
+        <button type="submit">Get Price</button>
     </form>
 
-    {% if error %}
-        <p style="color:red;">{{ error }}</p>
-    {% endif %}
-
-    {% if stock_data %}
-        <h2>Data for {{ stock_data.symbol }}</h2>
-        <ul>
-            <li>Last Price: ₹{{ stock_data.lastPrice }}</li>
-            <li>Day High: ₹{{ stock_data.dayHigh }}</li>
-            <li>Day Low: ₹{{ stock_data.dayLow }}</li>
-            <li>Previous Close: ₹{{ stock_data.previousClose }}</li>
-        </ul>
+    {% if price %}
+        <h2>Live Price for {{ symbol }}: ₹{{ price }}</h2>
+    {% elif symbol %}
+        <p>❌ Failed to fetch price for "{{ symbol }}". Please check the symbol.</p>
     {% endif %}
 </body>
 </html>
