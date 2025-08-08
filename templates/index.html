@@ -6,8 +6,7 @@
 <body>
     <h1>Stock Strategy Tracker</h1>
     <form method="POST">
-        <label for="symbol">Enter Stock Symbol (e.g., BHEL):</label>
-        <input type="text" id="symbol" name="symbol" required>
+        <input type="text" name="symbol" placeholder="Enter NSE Symbol (e.g., BHEL)" required>
         <button type="submit">Get Data</button>
     </form>
 
@@ -16,15 +15,12 @@
     {% endif %}
 
     {% if stock_data %}
-        <h2>{{ stock_data['companyName'] }}</h2>
+        <h2>Data for {{ stock_data.symbol }}</h2>
         <ul>
-            <li>Symbol: {{ stock_data['symbol'] }}</li>
-            <li>Last Price: ₹{{ stock_data['lastPrice'] }}</li>
-            <li>Day High: ₹{{ stock_data['dayHigh'] }}</li>
-            <li>Day Low: ₹{{ stock_data['dayLow'] }}</li>
-            <li>Volume: {{ stock_data['quantityTraded'] }}</li>
-            <li>52-Week High: ₹{{ stock_data['high52'] }}</li>
-            <li>52-Week Low: ₹{{ stock_data['low52'] }}</li>
+            <li>Last Price: ₹{{ stock_data.lastPrice }}</li>
+            <li>Day High: ₹{{ stock_data.dayHigh }}</li>
+            <li>Day Low: ₹{{ stock_data.dayLow }}</li>
+            <li>Previous Close: ₹{{ stock_data.previousClose }}</li>
         </ul>
     {% endif %}
 </body>
