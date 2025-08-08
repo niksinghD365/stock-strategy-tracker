@@ -4,17 +4,17 @@
     <title>Stock Strategy Tracker</title>
 </head>
 <body>
-    <h1>Stock Strategy Tracker</h1>
-    <form method="POST">
-        <label for="symbol">Enter NSE Symbol (e.g. BHEL):</label>
-        <input type="text" name="symbol" id="symbol" required>
+    <h1>📈 Stock Price Checker</h1>
+    <form method="post">
+        <input type="text" name="symbol" placeholder="Enter symbol (e.g. BHEL)">
         <button type="submit">Get Price</button>
     </form>
 
     {% if price %}
-        <h2>Live Price for {{ symbol }}: ₹{{ price }}</h2>
-    {% elif symbol %}
-        <p>❌ Failed to fetch price for "{{ symbol }}". Please check the symbol.</p>
+        <p>✅ Current Price: ₹{{ price }}</p>
+        <p><small>Source: {{ source }}</small></p>
+    {% elif error %}
+        <p style="color:red;">{{ error }}</p>
     {% endif %}
 </body>
 </html>
