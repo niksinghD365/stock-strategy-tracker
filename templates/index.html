@@ -4,33 +4,28 @@
     <title>Stock Strategy Tracker</title>
 </head>
 <body>
-    <h1>📈 Stock Strategy Tracker</h1>
-    
+    <h1>Stock Strategy Tracker</h1>
     <form method="POST">
-        <input type="text" name="symbol" placeholder="Enter stock symbol (e.g. INFY.NS)" required>
-        <button type="submit">Analyze</button>
+        <label for="symbol">Enter Stock Symbol (e.g., BHEL):</label>
+        <input type="text" id="symbol" name="symbol" required>
+        <button type="submit">Get Data</button>
     </form>
 
-    {% if symbol %}
-        <h2>Indicators for {{ symbol }}</h2>
-        <table border="1" cellpadding="5">
-            <tr>
-                <th>Date</th>
-                <th>Close</th>
-                <th>RSI</th>
-                <th>MACD</th>
-                <th>Signal</th>
-            </tr>
-            {% for index, row in df.tail(10).iterrows() %}
-            <tr>
-                <td>{{ index.strftime('%Y-%m-%d') }}</td>
-                <td>{{ row['Close'] | round(2) }}</td>
-                <td>{{ row['RSI'] | round(2) }}</td>
-                <td>{{ row['MACD'] | round(2) }}</td>
-                <td>{{ row['Signal'] | round(2) }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    {% if stock_data %}
+        <h2>{{ stock_data['companyName'] }}</h2>
+        <ul>
+            <li>Symbol: {{ stock_data['symbol'] }}</li>
+            <li>Last Price: ₹{{ stock_data['lastPrice'] }}</li>
+            <li>Day High: ₹{{ stock_data['dayHigh'] }}</li>
+            <li>Day Low: ₹{{ stock_data['dayLow'] }}</li>
+            <li>Volume: {{ stock_data['quantityTraded'] }}</li>
+            <li>52-Week High: ₹{{ stock_data['high52'] }}</li>
+            <li>52-Week Low: ₹{{ stock_data['low52'] }}</li>
+        </ul>
     {% endif %}
 </body>
 </html>
